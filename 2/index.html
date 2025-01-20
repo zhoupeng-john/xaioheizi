@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蔡徐坤压缩器</title>
+    <style>
+        :root {
+            --primary-color: #00f2fe;
+            --bg-color: #111827;
+            --container-bg: #1f2937;
+            --text-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 3.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .ikun-gif {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .fan-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .fan-text {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.6em;
+            color: var(--text-color);
+        }
+
+        h1 span {
+            font-size: 1.2em;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary-color);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: rgba(0, 242, 254, 0.05);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .settings {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .quality-slider {
+            width: 100%;
+            margin: 10px 0;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .quality-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        .button {
+            background: var(--primary-color);
+            color: var(--bg-color);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            min-width: 200px;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .button:disabled {
+            background: #4b5563;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .preview {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .preview-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .preview-box h3 {
+            color: var(--primary-color);
+            margin: 0 0 15px 0;
+            font-size: 1.1em;
+        }
+
+        #previewImage, #compressedImage {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .file-info {
+            margin-top: 15px;
+            color: var(--text-color);
+            font-size: 14px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            white-space: pre-line;
+        }
+
+        .upload-area p {
+            color: var(--text-color);
+            font-size: 1.1em;
+            margin: 0;
+        }
+
+        /* 添加移动端响应式样式 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            .ikun-gif {
+                width: 50px;
+                height: 50px;
+            }
+
+            .fan-image {
+                width: 40px;
+                height: 40px;
+            }
+
+            .fan-text {
+                font-size: 0.7em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            .preview {
+                grid-template-columns: 1fr;  /* 在手机上改为单列显示 */
+            }
+
+            .button {
+                width: 100%;
+                min-width: unset;
+                padding: 15px;
+            }
+
+            .settings {
+                padding: 15px;
+            }
+
+            .upload-area {
+                padding: 20px;
+            }
+        }
+
+        /* 针对更小屏幕的优化 */
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <img src="./images/ikun.gif" alt="蔡徐坤" class="ikun-gif">
+            蔡徐坤压缩器 <span>🐔</span>
+            <div class="fan-text">
+                鸡哥头号粉丝：
+                <img src="./images/1.jpg" alt="粉丝" class="fan-image">
+            </div>
+        </h1>
+        <div class="subtitle">给鸡哥哥吃图片，鸡哥哥吐给你压缩版！</div>
+        
+        <div class="upload-area" id="dropZone">
+            <p>点击或拖拽图片到这里</p>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <div class="settings">
+            <label for="quality">压缩质量: <span id="qualityValue">80%</span></label>
+            <input type="range" id="quality" class="quality-slider" min="1" max="100" value="80">
+        </div>
+
+        <button class="button" id="compressButton" disabled>压缩图片</button>
+
+        <div class="preview">
+            <div class="preview-box">
+                <h3>原始图片</h3>
+                <div class="file-info" id="originalInfo"></div>
+                <img id="previewImage">
+            </div>
+            <div class="preview-box">
+                <h3>压缩后图片</h3>
+                <div class="file-info" id="compressedInfo"></div>
+                <img id="compressedImage">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
